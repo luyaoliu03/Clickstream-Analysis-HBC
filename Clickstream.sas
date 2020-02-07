@@ -1,11 +1,10 @@
-/*-----------------------------------------------Clickstream Analysis-----------------------------------------------------*/
+/*---------------------------------------------------Clickstream Analysis---------------------------------------------------------*/
 
-/*1.How many visits landed on the homepage and ended up with conversions on FY19 Nov. Week 4 for Saks Off Fifth*/
+/*=====1.How many visits landed on the homepage and ended up with conversions on FY19 Nov. Week 4 for Saks Off Fifth=======*/
 
 /**To explore during the week of Black Friday, the conversion rate of those who land on homepage,**/
 /**So we could compared to the conversion rate of those who land on other promotion landing pages**/
 /**To see whether special promotion landing pages contribute higher conversion rate, if so, how much of the difference**/
-
 
 PROC SQL;
 connect to ASTER as ast (DSN=Aster);
@@ -27,7 +26,7 @@ Quit;
 /*We could use attribute 'session page view seq' or 'landing page url'*/
 
 
-/*2.For the above orders, what % of orders were attributed to Paid Search: Trademark and what % to Email marketing channel*/
+/*=====2.For the above orders, what % of orders were attributed to Paid Search: Trademark and what % to Email marketing channel=====*/
 
 /**Break down: To see the percentage of important channels that contribute to conversions with homepage as the landing page**/
 
@@ -78,7 +77,6 @@ SELECT * FROM connection to ast
 DISCONNECT FROM ast;
 Quit;
 
-
 /*%Email*/
 PROC SQL;
 connect to ASTER as ast (DSN=Aster);
@@ -99,10 +97,12 @@ SELECT * FROM connection to ast
 DISCONNECT FROM ast;
 Quit;
 
-/*8.Visits adding to waitlist & % to top product waitlisted for Total Saks*/
-/*For Saks Direct Live*/
+/*3.How many visits added something to waitlist and what was the top product waitlisted for total Saks Fifth Avenue*/
 
-/*To know product name, to join with SDMRK tables on PRODUCT_CODE*/
+
+/*Total Saks: Saks Direct Live, Saks iOS APP, Saks Android APP*/
+
+/*For Saks Direct Live*/
 
 PROC SQL;
 connect to ASTER as ast (DSN=Aster);
