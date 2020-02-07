@@ -1,9 +1,9 @@
-/*-------------------------------------------Clickstream Analysis----------------------------------------------*/
+/*-----------------------------------------------Clickstream Analysis-----------------------------------------------------*/
 
 /*1.How many visits landed on the homepage and ended up with conversions on FY19 Nov. Week 4 for Saks Off Fifth*/
 
 /**To explore during the week of Black Friday, the conversion rate of those who land on homepage,**/
-/**So we could compared to the conversion rate of those who lands on other promotion landing pages**/
+/**So we could compared to the conversion rate of those who land on other promotion landing pages**/
 /**To see whether special promotion landing pages contribute higher conversion rate, if so, how much of the difference**/
 
 
@@ -27,30 +27,59 @@ Quit;
 /*We could use attribute 'session page view seq' or 'landing page url'*/
 
 
-/*7.%Orders attributed to Paid Search: Trademark & % to Email*/
-/*event9 value 2 & value3*/
+/*2.For the above orders, what % of orders were attributed to Paid Search: Trademark and what % to Email marketing channel*/
 
+/**Break down: To see the percentage of important channels that contribute to conversions with homepage as the landing page**/
+
+/*%Paid Search: Trademark*/
 PROC SQL;
 connect to ASTER as ast (DSN=Aster);
 CREATE TABLE o5_paid_search AS
 SELECT * FROM connection to ast
 	(SELECT 
-	  ( 100 * COUNT( DISTINCT(A.session_uuid) )/ (SELECT visits FROM o5_visits_Sep)
+	  ( 100 * COUNT( DISTINCT(A.session_uuid) )/ (SELECT visits FROM o5_visits_NOV)
 	   AS PERCENTAGE
 	FROM DW.fact_omni_off5th_page_views AS A
 	LEFT JOIN DW.fact_omni_off5th_events AS B
 	ON A.session_uuid = B.session_uuid
-	WHERE event_type_id = 9 AND value2 = '%_TR_%' AND value3 = 'paid search' /*Plz look up at Adobe Marketing Channels file*/
-    AND page_type = 'home page'
-	AND date(A.date_filter)>= '2019-09-06' 
-	AND date(A.date_filter)<= '2019-09-07' /*To QA code*/
+	WHERE event_type_id = 9 
+	AND value2 = '%_TR_%' AND value3 = 'paid search' /*Specify rules to filter out marketing channels*/
+        AND page_type = 'home page'
+	AND session_page_view_seq = 1
+	AND date(A.date_filter)>= '2019-11-24' 
+	AND date(A.date_filter)<= '2019-11-30'
 );
 DISCONNECT FROM ast;
 Quit;
 
-/**It's better to write in sub-queries**/
+/*%Paid Search: Trademark - Sub-queries - faster*/
+PROC SQL;
+connect to ASTER as ast (DSN=Aster);
+CREATE TABLE o5_paid_search AS
+SELECT * FROM connection to ast
+	(SELECT 
+	  ( 100 * COUNT( DISTINCT(A.session_uuid) )/ (SELECT visits FROM o5_visits_NOV)
+	   AS PERCENTAGE
+	FROM DW.fact_omni_off5th_page_views AS A
+	LEFT JOIN DW.fact_omni_off5th_events AS B
+	ON A.session_uuid = B.session_uuid
+	AND value2 = '%_TR_%' AND value3 = 'paid search' /*Specify rules to filter out marketing channels*/
+	AND session_uuid IN
+		( SELECT session_uuid
+		FROM DW.fact_omni_off5th_page_views AS C
+		LEFT JOIN DW.fact_omni_off5th_events AS D
+		ON C.session_uuid = D.session_uuid
+		WHERE page_type = 'home page' 
+		AND session_page_view_seq = 1
+		AND event_type_id = 9
+		AND date(A.date_filter)>= '2019-11-24' 
+		AND date(A.date_filter)<= '2019-11-30')
+);
+DISCONNECT FROM ast;
+Quit;
 
-/*Email*/
+
+/*%Email*/
 PROC SQL;
 connect to ASTER as ast (DSN=Aster);
 CREATE TABLE o5_email AS
@@ -62,7 +91,8 @@ SELECT * FROM connection to ast
 	LEFT JOIN DW.fact_omni_off5th_events AS B
 	ON A.session_uuid = B.session_uuid
 	WHERE event_type_id = 9 AND value3 = 'email'
-    AND page_type = 'home page' /*when there's event 9, shall we still use order_flag*/
+    	AND page_type = 'home page'
+	AND session_page_view_seq = 1
 	AND date(A.date_filter)>= '2019-09-06' 
 	AND date(A.date_filter)<= '2019-09-07' /*To QA code*/
 );
