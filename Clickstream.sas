@@ -1,6 +1,6 @@
 /*---------------------------------------------------Clickstream Analysis---------------------------------------------------------*/
 
-/*=====1.How many visits landed on the homepage and ended up with conversions on FY19 Nov. Week 4 for Saks Off Fifth=======*/
+/*1.How many visits landed on the homepage and ended up with conversions on FY19 Nov. Week 4 for Saks Off Fifth*/
 
 /**To explore during the week of Black Friday, the conversion rate of those who land on homepage,**/
 /**So we could compared to the conversion rate of those who land on other promotion landing pages**/
@@ -25,8 +25,9 @@ Quit;
 
 /*We could use attribute 'session page view seq' or 'landing page url'*/
 
+/*============================================================================================================================*/
 
-/*=====2.For the above orders, what % of orders were attributed to Paid Search: Trademark and what % to Email marketing channel=====*/
+/*2.For the above orders, what % of orders were attributed to Paid Search: Trademark and what % to Email marketing channel*/
 
 /**Break down: To see the percentage of important channels that contribute to conversions with homepage as the landing page**/
 
@@ -96,6 +97,8 @@ SELECT * FROM connection to ast
 );
 DISCONNECT FROM ast;
 Quit;
+
+/*============================================================================================================================*/
 
 /*3.How many visits added something to waitlist and what was the top product waitlisted for total Saks Fifth Avenue*/
 
