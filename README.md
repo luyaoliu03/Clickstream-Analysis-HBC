@@ -5,3 +5,5 @@ Analyzed the data of digital products to capture growth opportunities for Hudson
 Data Source: Aster Database (where Omniture data flows into after gets ETL)
 
 Omniture data includes hit data on Desktop, Mobile and APP.
+
+Banners supported: Saks Fifth Avenue (Site, iOS APP, Android APP), Saks Off Fifth (Site), Hudson's Bay (Site, iOS APP)
