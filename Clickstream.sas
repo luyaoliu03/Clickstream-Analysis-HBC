@@ -1,25 +1,30 @@
 /*-------------------------------------------Clickstream Analysis----------------------------------------------*/
 
-/*1.How many visits landed on the homepage and ended up with conversions on Nov week 4*/
+/*1.How many visits landed on the homepage and ended up with conversions on FY19 Nov. Week 4 for Saks Off Fifth*/
+
+/**To explore during the week of Black Friday, the conversion rate of those who land on homepage,**/
+/**So we could compared to the conversion rate of those who lands on other promotion landing pages**/
+/**To see whether special promotion landing pages contribute higher conversion rate, if so, how much of the difference**/
+
 
 PROC SQL;
 connect to ASTER as ast (DSN=Aster);
-CREATE TABLE o5_visits_Sep AS
+CREATE TABLE o5_visits_NOV AS
 SELECT * FROM connection to ast
 	(SELECT COUNT( DISTINCT(A.session_uuid) ) AS visits
 	FROM DW.fact_omni_off5th_page_views AS A
 	LEFT JOIN DW.fact_omni_off5th_events AS B
 	ON A.session_uuid = B.session_uuid
 	WHERE page_type = 'home page' 
-	AND session_page_view_seq = 1 /* landing_page_url LIKE '%saksoff5th.com/Entry%' OR landing_page_url LIKE '%saksoff5th.com/mindex%' */
-	AND event_type_id = 9 
-	AND date(A.date_filter)>= '2019-09-06' 
-	AND date(A.date_filter)<= '2019-09-07'
+	AND session_page_view_seq = 1 /*OR landing_page_url LIKE '%saksoff5th.com/Entry%' OR landing_page_url LIKE '%saksoff5th.com/mindex%'*/
+	AND event_type_id = 9 /*EVENT 9 is conversion*/
+	AND date(A.date_filter)>= '2019-11-24' 
+	AND date(A.date_filter)<= '2019-11-30'
 );
 DISCONNECT FROM ast;
 Quit;
 
-/*landing page url / session page view seq*/
+/*We could use attribute 'session page view seq' or 'landing page url'*/
 
 
 /*7.%Orders attributed to Paid Search: Trademark & % to Email*/
