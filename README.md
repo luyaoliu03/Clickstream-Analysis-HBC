@@ -1,4 +1,4 @@
-# Clickstream-Analysis-HBC
+# Clickstream_Analysis_HBC
 Analyzed customer-level data of digital products to capture growth opportunities for Hudson's Bay Company
 
 # Explore the database
