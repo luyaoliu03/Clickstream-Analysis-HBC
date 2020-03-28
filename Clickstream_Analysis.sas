@@ -197,8 +197,8 @@ SELECT * FROM connection to ast
 		FROM DW.fact_omni_saks_app_sessions AS C
 		LEFT JOIN DW.dim_visitor_devices AS D
 		ON C.session_uuid = D.session_uuid
-		WHERE date(A.date_filter)>= '2019-09-06' 
-		AND date(A.date_filter)<= '2019-09-07'
+		WHERE date(A.date_filter)>= '2019-11-24' 
+		AND date(A.date_filter)<= '2019-11-30'
 );
 DISCONNECT FROM ast;
 Quit;
@@ -217,12 +217,12 @@ SELECT * FROM connection to ast
 	(SELECT 
 	  ( 100 * COUNT( DISTINCT(session_uuid) )/ (SELECT COUNT( DISTINCT(session_uuid) ) 
 						FROM DW.fact_omni_bay_sessions
-						WHERE date(date_filter)>= '2019-11-03' 
+						WHERE date(date_filter)>= '2019-11-24' 
 	  					AND date(date_filter)<= '2019-11-30') )
 	 AS PERCENTAGE
 	 FROM DW.fact_omni_bay_sessions
 	 WHERE brower_name = 'Mozilla Firefox'
-	 AND date(date_filter)>= '2019-11-03' 
+	 AND date(date_filter)>= '2019-11-24' 
 	 AND date(date_filter)<= '2019-11-30'
 );
 DISCONNECT FROM ast;
